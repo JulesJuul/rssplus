@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gérer mes Flux{% endblock %}
+
+{% block body %}
+    <h1>Mes Flux RSS</h1>
+
+    <a href="{{ path('add_source') }}" class="btn btn-success">Ajouter un Flux</a>
+
+    <ul>
+        {% for userSource in userSources %}
+            <li>
+                {{ userSource.customName }} - {{ userSource.source.url }}
+                <a href="{{ path('delete_source', {'id': userSource.id}) }}" class="btn btn-danger">Supprimer</a>
+                <a href="{{ path('edit_source', {'id': userSource.id}) }}" class="btn btn-warning">Modifier</a>
+            </li>
+        {% else %}
+            <li>Aucun flux ajouté.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
