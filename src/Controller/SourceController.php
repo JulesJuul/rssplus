@@ -16,7 +16,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 class SourceController extends AbstractController
 {
-    #[Route('/flux/ajouter', name: 'add_source')]
+    #[Route('/flux/add', name: 'add_source')]
     public function add(Request $request, EntityManagerInterface $em): Response
     {
         if (!$this->getUser()) {
@@ -89,7 +89,7 @@ class SourceController extends AbstractController
         ]);
     }
 
-    #[Route('/flux', name: 'user_sources')]
+    #[Route('/flows', name: 'user_sources')]
     public function manage(EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
@@ -103,7 +103,7 @@ class SourceController extends AbstractController
         ]);
     }
 
-    #[Route('/flux/modifier/{sourceId}', name: 'edit_user_source')]
+    #[Route('/flow/edit/{sourceId}', name: 'edit_user_source')]
     public function editUserSource(
         int $sourceId,
         UserSourceRepository $userSourceRepository,
@@ -136,4 +136,37 @@ class SourceController extends AbstractController
             'userSource' => $userSource,
         ]);
     }
+    
+    #[Route('/flow/delete/{sourceId}', name: 'delete_user_source', methods: ['POST'])]
+        public function deleteUserSource(
+            int $sourceId,
+            EntityManagerInterface $em,
+            Request $request
+        ): Response {
+            $user = $this->getUser();
+        
+            if (!$user) {
+                throw $this->createAccessDeniedException('Vous devez être connecté.');
+            }
+        
+            $userSource = $em->getRepository(UserSource::class)->findOneBy([
+                'user' => $user,
+                'source' => $sourceId,
+            ]);
+        
+            if (!$userSource) {
+                $this->addFlash('error', 'Ce flux n’existe pas dans votre liste.');
+                return $this->redirectToRoute('user_sources');
+            }
+        
+            if ($this->isCsrfTokenValid('delete_user_source_' . $sourceId, $request->request->get('_token'))) {
+                $em->remove($userSource);
+                $em->flush();
+                $this->addFlash('success', 'Flux supprimé.');
+            } else {
+                $this->addFlash('error', 'Jeton CSRF invalide.');
+            }
+        
+            return $this->redirectToRoute('user_sources');
+        }
 }

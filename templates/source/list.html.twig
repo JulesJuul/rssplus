@@ -18,9 +18,17 @@
             </div>
 
             <div class="flex flex-col p-4 gap-4 text-black text-sm">
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="px-3 py-2 mb-2 border {{ label == 'success' ? 'border-green-600 bg-green-100 text-green-800' : 'border-red-600 bg-red-100 text-red-800' }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
                 {% if userSources is empty %}
                     <p>Vous n'avez pas encore ajouté de flux.</p>
                 {% else %}
+
                     <ul class="space-y-2">
                         {% for userSource in userSources %}
                             <li class="border border-gray-300 bg-gray-100 px-2 py-1 shadow-inner">
@@ -37,10 +45,20 @@
                                     class="inline-flex items-center justify-center px-3 py-1 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040] w-fit">
                                         ✒️
                                     </a>
-                                    <a href="{{ path('add_source') }}"
+                                    <!-- <a href="{{ path('add_source') }}"
                                     class="inline-flex items-center justify-center px-3 py-1 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040] w-fit">
                                         🗑️
-                                    </a>
+                                    </a> -->
+                                    <form method="post"
+                                          action="{{ path('delete_user_source', { sourceId: userSource.source.id }) }}"
+                                          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce flux ?');"
+                                          class="inline">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete_user_source_' ~ userSource.source.id) }}">
+                                        <button type="submit"
+                                                class="inline-flex items-center justify-center px-3 py-1 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040] w-fit">
+                                            🗑️
+                                        </button>
+                                    </form>
                                 </div>
                             </li>
                         {% endfor %}
