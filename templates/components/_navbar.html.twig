@@ -10,11 +10,16 @@
         {% if show_selector is not defined or show_selector %}
             <div class="flex items-center space-x-5">
                 <p class="text-white">Flux:</p>
-                <select name="mode" class="px-3 py-2 border border-black text-black bg-[#c0c0c0] shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
+                <select name="mode"
+                        class="px-3 py-2 border border-black text-black bg-[#c0c0c0] shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
                     <option value="all">Tous</option>
+                    {% for userSource in userSources %}
+                        <option value="{{ userSource.source.id }}">{{ userSource.customName }}</option>
+                    {% endfor %}
                 </select>
             </div>
         {% endif %}
+
 
         <div class="flex items-center space-x-2">
             <a href="{{ path('user_sources') }}"
