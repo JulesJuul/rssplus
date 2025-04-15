@@ -1,11 +1,15 @@
 {# templates/login/index.html.twig #}
 {% extends 'base.html.twig' %}
 
+
 {% block body %}
-    <h1>Welcome, {{ user.username }}!</h1>
-    <div style="position: absolute; bottom: 20px; right: 20px;">
-        <form action="/logout" method="post">
-            <button type="submit" style="background-size: contain; background: url('https://64.media.tumblr.com/4e932aabdfe572f340dbe32cfc06f1cb/840b4b6888f1f93f-e3/s540x810/c3d700cbea3465ba7c8215250e988acb638676e8.png') no-repeat center center; width: 50px; height: 50px; border: no; background-size: 100% 100%;ne; cursor: pointer;"></button>
-        </form>
+    <div class="flex flex-col w-full h-full">
+        {% include 'components/_navbar.html.twig' with { show_selector: true } %}
+        <h1>Welcome, {{ user.username }}!</h1>
+        <div style="position: absolute; bottom: 20px; right: 20px;">
+            <form action="/logout" method="post">
+                <button type="submit" style="background-size: contain; background: url('https://64.media.tumblr.com/4e932aabdfe572f340dbe32cfc06f1cb/840b4b6888f1f93f-e3/s540x810/c3d700cbea3465ba7c8215250e988acb638676e8.png') no-repeat center center; width: 50px; height: 50px; border: no; background-size: 100% 100%;ne; cursor: pointer;"></button>
+            </form>
+        </div>
     </div>
 {% endblock %}
