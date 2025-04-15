@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes flux RSS{% endblock %}
+
+{% block body %}
+<h1>Mes flux RSS</h1>
+
+{% if userSources is empty %}
+    <p>Vous n'avez pas encore ajouté de flux.</p>
+{% else %}
+    <ul>
+        {% for userSource in userSources %}
+            <li>
+                <strong>{{ userSource.customName }}</strong><br>
+                <small>{{ userSource.source.url }}</small>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<a href="{{ path('add_source') }}">➕ Ajouter un nouveau flux</a>
+{% endblock %}

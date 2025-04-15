@@ -5,6 +5,13 @@
 {% block body %}
     <h1>Ajouter un Flux RSS</h1>
 
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+
     {{ form_start(form) }}
         {{ form_row(form.customName) }}
         {{ form_row(form.url) }}

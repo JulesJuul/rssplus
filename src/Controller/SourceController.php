@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+
 
 class SourceController extends AbstractController
 {
@@ -66,23 +68,40 @@ public function add(Request $request, EntityManagerInterface $em): Response
             $em->persist($source);
             $em->flush();
         }
+        try {
+            $userSource = new UserSource();
+            $userSource->setUser($this->getUser());
+            $userSource->setSource($source);
+            $userSource->setCustomName($form->get('customName')->getData());
+            $userSource->setCreatedAt(new \DateTimeImmutable());
+            $em->persist($userSource);
+            $em->flush();
 
-        $userSource = new UserSource();
-        $userSource->setUser($this->getUser());
-        $userSource->setSource($source);
-        $userSource->setCustomName($form->get('customName')->getData());
-        $userSource->setCreatedAt(new \DateTimeImmutable());
-        $em->persist($userSource);
-        $em->flush();
+            return $this->redirectToRoute('user_sources');
 
-        $this->addFlash('success', 'Le flux RSS a été ajouté avec succès.');
-
-        //TODO : Rediriger vers la page de gestion des flux
-        //return $this->redirectToRoute('manage_sources');
+        } 
+        catch (UniqueConstraintViolationException $e) {
+            $this->addFlash('error', 'Ce flux est déjà présent dans votre liste.');
+        }
     }
 
     return $this->render('source/add.html.twig', [
         'form' => $form->createView(),
     ]);
 }
+
+#[Route('/flux', name: 'user_sources')]
+public function manage(EntityManagerInterface $em): Response
+{
+    $user = $this->getUser();
+
+    $userSources = $em->getRepository(UserSource::class)->findBy([
+        'user' => $user,
+    ]);
+
+    return $this->render('source/list.html.twig', [
+        'userSources' => $userSources,
+    ]);
+}
+
 }
