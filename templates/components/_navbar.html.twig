@@ -1,29 +1,30 @@
-<nav class="bg-[#C0C0C0] flex w-full items-center justify-between px-6 py-4 border-b border-black font-thin box-border">
-    <div class="flex items-center">
-        <a href="{{ path('app_home') }}">
-            <img src="{{ asset('build/images/rssplus.png') }}" alt="RSS+" class="h-11">
-        </a>
-    </div>
-
-
-    {% if show_selector is not defined or show_selector %}
-        <div class="flex items-center space-x-5">
-            <p class="text-gray-600">Flux:</p>
-            <select name="mode" class="px-3 py-2 border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
-                <option value="all">Tous</option>
-            </select>
+<nav class="absolute w-full p-1">
+    <nav class="bg-[#000080] flex w-full items-center justify-between px-6 py-4 border border-white font-thin">
+        <div class="flex items-center">
+            <a href="{{ path('app_home') }}">
+                <img src="{{ asset('build/images/rssplus.png') }}" alt="RSS+" class="h-11">
+            </a>
         </div>
-    {% endif %}
 
-    <div class="flex items-center space-x-2">
-        <a href="{{ path('user_sources') }}"
-           class="w-7 h-7 flex items-center justify-center text-xl bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
-            ≡
-        </a>
-        <a href="{{ path('add_source') }}"
-           class="w-7 h-7 flex items-center justify-center text-xl bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
-            +
-        </a>
-    </div>
 
+        {% if show_selector is not defined or show_selector %}
+            <div class="flex items-center space-x-5">
+                <p class="text-white">Flux:</p>
+                <select name="mode" class="px-3 py-2 border border-black text-black bg-[#c0c0c0] shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
+                    <option value="all">Tous</option>
+                </select>
+            </div>
+        {% endif %}
+
+        <div class="flex items-center space-x-2">
+            <a href="{{ path('user_sources') }}"
+            class="w-7 h-7 flex items-center justify-center text-xl bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
+                ≡
+            </a>
+            <a href="{{ path('add_source') }}"
+            class="w-7 h-7 flex items-center justify-center text-xl bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
+                +
+            </a>
+        </div>
+    </nav>
 </nav>

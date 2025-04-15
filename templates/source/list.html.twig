@@ -3,20 +3,62 @@
 {% block title %}Mes flux RSS{% endblock %}
 
 {% block body %}
-<h1>Mes flux RSS</h1>
+{% include 'components/_navbar.html.twig' with { show_selector: false } %}
 
-{% if userSources is empty %}
-    <p>Vous n'avez pas encore ajouté de flux.</p>
-{% else %}
-    <ul>
-        {% for userSource in userSources %}
-            <li>
-                <strong>{{ userSource.customName }}</strong><br>
-                <small>{{ userSource.source.url }}</small>
-            </li>
-        {% endfor %}
-    </ul>
-{% endif %}
+    <div class="flex justify-center align-middle w-full h-full">
+    <div class="flex justify-center items-center w-full">
+        <div class="flex flex-col items-start gap-4 bg-[#f0f0f0] border border-gray-300 shadow-inner w-fit">
 
-<a href="{{ path('add_source') }}">➕ Ajouter un nouveau flux</a>
+            <div class="p-1 w-full">
+                <div class="relative bg-[#000080] w-full">
+                    <h1 class="text-white text-center font-thin">Mes flux RSS</h1>
+                    <button class="absolute top-[2px] right-[25px] w-5 h-5 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">?</button>
+                    <button onclick="window.location.href='{{ path('app_home') }}'" class="absolute top-[2px] right-[2px] w-5 h-5 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">✕</button>
+                </div>
+            </div>
+
+            <div class="flex flex-col p-4 gap-4 text-black text-sm">
+                {% if userSources is empty %}
+                    <p>Vous n'avez pas encore ajouté de flux.</p>
+                {% else %}
+                    <ul class="space-y-2">
+                        {% for userSource in userSources %}
+                            <li class="border border-gray-300 bg-gray-100 px-2 py-1 shadow-inner">
+                                <div class="flex flex-col mb-1">
+                                    <div class="flex flex-row items-center space-x-2"><p>Nom :</p><p>{{ userSource.customName }}</p></div>
+                                    <div class="flex flex-row items-center space-x-2"><p>URL :</p><p class="text-xs">{{ userSource.source.url }}</p></div>
+                                </div>
+                                <div class="flex flex-row justify-end">
+                                    <a href="{{ path('add_source') }}"
+                                    class="inline-flex items-center justify-center px-3 py-1 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040] w-fit">
+                                        ↻
+                                    </a>
+                                    <a href="{{ path('add_source') }}"
+                                    class="inline-flex items-center justify-center px-3 py-1 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040] w-fit">
+                                        ✒️
+                                    </a>
+                                    <a href="{{ path('add_source') }}"
+                                    class="inline-flex items-center justify-center px-3 py-1 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040] w-fit">
+                                        🗑️
+                                    </a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+                <div class="flex flex-row space-x-2">
+                    <a href="{{ path('add_source') }}"
+                    class="inline-flex items-center justify-center px-3 py-1 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040] w-fit">
+                        ➕ Ajouter un flux
+                    </a>
+                    <a href="{{ path('add_source') }}"
+                    class="inline-flex items-center justify-center px-3 py-1 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040] w-fit">
+                        ↻
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
