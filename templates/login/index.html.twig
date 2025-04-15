@@ -1,7 +1,6 @@
-{# templates/login/index.html.twig #}
 {% extends 'base.html.twig' %}
 
-{# ... #}
+{% block title %}Connexion{% endblock %}
 
 {% block body %}
     {% if error %}
@@ -9,15 +8,30 @@
     {% endif %}
 
     <form action="{{ path('app_login') }}" method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}" required>
+        <div class="flex flex-col items-start gap-4 bg-[#f0f0f0] border border-gray-300 shadow-inner w-fit">
+            <div class="p-1 w-full">
+                <div class="relative bg-[#000080] w-full">
+                    <h1 class="text-white text-center font-thin">Connexion</h1>
+                    <button class="absolute top-[2px] right-[2px] w-5 h-5 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">?</button>
+                </div>
+            </div>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password" required>
+            {# content #}
+            <div class="flex flex-col items-start p-4 gap-4">
+                <label for="username" class="text-sm font-thin text-black">Nom d'utilisateur:</label>
+                <input type="text" id="username" name="_username" value="{{ last_username }}" required class="px-2 py-1 border border-gray-400 bg-gray-100 text-black shadow-inner focus:outline-none focus:ring-1 focus:ring-blue-400">
 
-        {# If you want to control the URL the user is redirected to on success
-        <input type="hidden" name="_target_path" value="/account"> #}
+                <label for="password" class="text-sm font-thin text-black">Mot de passe:</label>
+                <input type="password" id="password" name="_password" required class="px-2 py-1 border border-gray-400 bg-gray-100 text-black shadow-inner focus:outline-none focus:ring-1 focus:ring-blue-400">
 
-        <button type="submit">login</button>
+                {# If you want to control the URL the user is redirected to on success
+                <input type="hidden" name="_target_path" value="/account"> #}
+
+                <button class="px-3 py-0.5 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]" type="submit">
+                    Connexion
+                </button>
+                <a href="{{ path('app_register') }}" class="text-sm text-[#000080] hover:underline">Je n'ai pas de compte</a>
+            </div>
+        </div>
     </form>
 {% endblock %}

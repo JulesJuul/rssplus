@@ -3,9 +3,9 @@
 
 {% block body %}
     <h1>Welcome, {{ user.username }}!</h1>
-    <form action="/logout" method="post">
-        <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded shadow-md hover:bg-blue-700 active:bg-blue-800">
-            Se déconnecter
-        </button>
-    </form>
+    <div style="position: absolute; bottom: 20px; right: 20px;">
+        <form action="/logout" method="post">
+            <button type="submit" style="background-size: contain; background: url('https://64.media.tumblr.com/4e932aabdfe572f340dbe32cfc06f1cb/840b4b6888f1f93f-e3/s540x810/c3d700cbea3465ba7c8215250e988acb638676e8.png') no-repeat center center; width: 50px; height: 50px; border: no; background-size: 100% 100%;ne; cursor: pointer;"></button>
+        </form>
+    </div>
 {% endblock %}
