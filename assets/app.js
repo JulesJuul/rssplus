@@ -11,3 +11,4 @@ import "./styles/app.css";
 
 import rssplus from "./images/rssplus.png";
 import shutdown from "./images/shutdown.png";
+import demarrer from "./images/demarrer.png";

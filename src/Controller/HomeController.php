@@ -83,9 +83,9 @@ class HomeController extends AbstractController
             $articles = $filteredArticles;
         }
 
-        usort($articles, function ($a, $b) {
-            return $b->getPubDate() <=> $a->getPubDate();
-        });
+        $articlesArray = $articles instanceof \Doctrine\Common\Collections\Collection ? $articles->toArray() : $articles;
+        usort($articlesArray, fn($a, $b) => $b->getPubDate() <=> $a->getPubDate());
+        $articles = $articlesArray;
 
         return $this->render('home/index.html.twig', [
             'userSources' => $userSources,

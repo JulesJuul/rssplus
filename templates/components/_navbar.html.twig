@@ -1,37 +1,72 @@
-<nav class="absolute w-full p-1">
-    <nav class="bg-[#000080] flex w-full items-center justify-between px-6 py-4 border border-white font-thin">
-        <div class="flex items-center">
-            <a href="{{ path('app_home') }}">
-                <img src="{{ asset('build/images/rssplus.png') }}" alt="RSS+" class="h-11">
-            </a>
-        </div>
+<!-- TASKBAR XP STYLE -->
+<div class="fixed bottom-0 left-0 w-full z-50 font-sans text-sm">
+  <div class="flex items-center justify-between bg-[#215dc6] h-10 border-t border-[#0a3f99] shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]">
 
+    <!-- BOUTON START -->
+    <div class="relative">
+      <button id="startBtn"
+        class="flex items-center px-3 h-10 text-white font-semibold bg-gradient-to-b from-[#4ea600] to-[#3e8900] border border-[#2e6000] shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#000]">
+        <img src="{{ asset('build/images/demarrer.png') }}" alt="Démarrer" class="h-4 w-4 mr-2">
+        <span class="text-white">Start</span>
+      </button>
 
-        {% if show_selector is not defined or show_selector %}
-            <div class="flex items-center space-x-5">
-                <select name="mode"
-                        class="px-3 py-2 border border-black text-black bg-[#c0c0c0] shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
-                    <option value="all" {% if not app.request.query.get('source') %}selected{% endif %}>Tous les flux</option>
-                    {% for userSource in userSources %}
-                        <option value="{{ userSource.source.id }}" {% if app.request.query.get('source') == userSource.source.id %}selected{% endif %}>
-                            {{ userSource.customName }}
-                        </option>
-                    {% endfor %}
-                </select>
-                <select name="date" 
-                        class="px-3 py-2 border border-black text-black bg-[#c0c0c0] shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
-                    <option value="all" {% if not app.request.query.get('date') %}selected{% endif %}>Toutes les dates</option>
-                    {% for date in availableDates %}
-                        <option value="{{ date }}" {% if app.request.query.get('date') == date %}selected{% endif %}>
-                            {{ date }}
-                        </option>
-                    {% endfor %}
-                </select>
+      <!-- MENU DEMARRER -->
+      <div id="startMenu"
+        class="absolute bottom-10 left-0 w-80 bg-[#e0e0e0] border border-black shadow-2xl flex flex-col z-50 hidden">
+      </div>
+    </div>
 
-            </div>
-        {% endif %}
+    <div class="flex flex-1 justify-between px-2">
 
-        <script>
+      <div class="flex items-center space-x-2">
+        <a href="{{ path('app_home') }}" class="block px-2 py-1 bg-[#dcdcdc] hover:bg-[#b0b0b0] border border-black shadow-inner">
+          🏠 Accueil
+        </a>
+        <a href="{{ path('user_sources') }}" class="block px-2 py-1 bg-[#dcdcdc] hover:bg-[#b0b0b0] border border-black shadow-inner">
+          📂 Gérer mes flux
+        </a>
+        <a href="{{ path('add_source') }}" class="block px-2 py-1 bg-[#dcdcdc] hover:bg-[#b0b0b0] border border-black shadow-inner">
+          ➕ Ajouter une source
+        </a>
+      </div>
+
+{% if show_selector is not defined or show_selector %}
+    <div class="flex items-center justify-center space-x-2">
+      <select name="mode" class="px-2 py-1 text-black border border-black bg-[#c0c0c0] shadow-inner">
+        <option value="all" {% if not app.request.query.get('source') %}selected{% endif %}>Tous les flux</option>
+        {% for userSource in userSources %}
+        <option value="{{ userSource.source.id }}" {% if app.request.query.get('source') == userSource.source.id %}selected{% endif %}>
+          {{ userSource.customName }}
+        </option>
+        {% endfor %}
+      </select>
+      <select name="date" class="px-2 py-1 text-black border border-black bg-[#c0c0c0] shadow-inner">
+        <option value="all" {% if not app.request.query.get('date') %}selected{% endif %}>Toutes les dates</option>
+        {% for date in availableDates %}
+        <option value="{{ date }}" {% if app.request.query.get('date') == date %}selected{% endif %}>{{ date }}</option>
+        {% endfor %}
+      </select>
+    </div>
+{% endif %}
+      
+
+      <div class="flex items-center">
+        <form action="/logout" method="post">
+          <button type="submit" class="w-full px-2 py-1 text-left bg-[#dcdcdc] hover:bg-[#b0b0b0] border border-black shadow-inner">
+            🛑 Déconnexion
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Horloge -->
+    <div class="flex items-center space-x-3 pr-4 text-white">
+      <span class="text-xs" id="clock">00:00</span>
+    </div>
+  </div>
+</div>
+
+<script>
             document.querySelector('select[name="mode"]').addEventListener('change', function() {
                 const selectedValue = this.value;
                 const url = new URL(window.location.href);
@@ -58,24 +93,3 @@
                 window.location.href = url.toString();
             });
         </script>
-
-
-
-        <div class="flex items-center space-x-2">
-            <a href="{{ path('user_sources') }}"
-            class="w-7 h-7 flex items-center justify-center text-xl bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
-                ≡
-            </a>
-            <a href="{{ path('add_source') }}"
-            class="w-7 h-7 flex items-center justify-center text-xl bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
-                +
-            </a>
-            <form action="/logout" method="post">
-                <button type="submit"
-                    class="w-7 h-7 flex items-center justify-center">
-                    <img src="{{ asset('build/images/shutdown.png') }}" alt="Logout" class="w-7 h-7">
-                </button>
-            </form>
-        </div>
-    </nav>
-</nav>
