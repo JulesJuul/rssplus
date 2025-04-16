@@ -43,7 +43,13 @@ class Source
     ]
     private Collection $articles;
 
-    #[ORM\OneToMany(targetEntity: UserSource::class, mappedBy: 'source', cascade: ['persist', 'remove'])]
+    #[
+        ORM\OneToMany(
+            targetEntity: UserSource::class,
+            mappedBy: "source",
+            cascade: ["persist", "remove"]
+        )
+    ]
     private Collection $userSources;
 
     public function __construct()
@@ -137,7 +143,6 @@ class Source
     public function removeArticle(Article $article): static
     {
         if ($this->articles->removeElement($article)) {
-            // set the owning side to null (unless already changed)
             if ($article->getSource() === $this) {
                 $article->setSource(null);
             }
@@ -150,7 +155,6 @@ class Source
     {
         return $this->userSources;
     }
-
 
     public function addUserSource(UserSource $userSource): static
     {

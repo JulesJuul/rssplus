@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block body %}
+    {% include 'components/_navbar.html.twig' with { show_selector: false } %}
+    {% set sourceId = app.request.query.get('sourceId') %}
+    {% set date = app.request.query.get('date') %}
+
+    <div class="flex flex-col py-26 justify-center">
+        <div class="max-w-4xl mx-auto bg-[#c0c0c0] border border-black p-6 shadow-[inset_-2px_-2px_0_#fff,inset_2px_2px_0_#404040]">
+            <div class="bg-[#000080] text-white px-4 py-2 text-lg font-semibold mb-4">
+                📰 {{ article.title }}
+            </div>
+            <p class="text-sm text-black mb-2">
+                <strong>Date :</strong> {{ article.pubDate|date('d/m/Y (H:i)') }}<br>
+                <strong>Auteur :</strong> {{ article.author ?? 'Inconnu' }}
+            </p>
+            <div class="mt-4 text-black text-base leading-relaxed">
+                {{ article.content|raw }}
+            </div>
+            <div class="mt-6 space-x-2">
+                <a href="{{ path('app_home') }}?source={{ sourceId }}&date={{ date }}"
+                class="inline-block bg-[#f0f0f0] border border-black px-3 py-1 text-sm text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
+                    ⬅ Retour
+                </a>
+                <a href="{{ article.link }}" target="_blank"
+                class="inline-block bg-[#f0f0f0] border border-black px-3 py-1 text-sm text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
+                    ⤴︎ En savoir plus
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

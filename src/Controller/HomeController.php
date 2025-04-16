@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Article;
 use App\Entity\UserSource;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,7 +29,6 @@ class HomeController extends AbstractController
 
         $articles = [];
 
-        // 🔍 Filtrage par source
         if ($sourceParam && $sourceParam != '') {
             $selectedUserSource = array_filter($userSources, function ($us) use ($sourceParam) {
                 return $us->getSource()->getId() == $sourceParam;
@@ -48,7 +46,6 @@ class HomeController extends AbstractController
             }
         }
 
-        // 🔍 Filtrage par date
         if ($dateParam && $dateParam !== 'all') {
             $now = new \DateTime();
             $filteredArticles = [];
