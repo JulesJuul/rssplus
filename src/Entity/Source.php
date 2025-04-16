@@ -43,6 +43,9 @@ class Source
     ]
     private Collection $articles;
 
+    #[ORM\OneToMany(targetEntity: UserSource::class, mappedBy: 'source', cascade: ['persist', 'remove'])]
+    private Collection $userSources;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
@@ -138,6 +141,22 @@ class Source
             if ($article->getSource() === $this) {
                 $article->setSource(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getUserSources(): Collection
+    {
+        return $this->userSources;
+    }
+
+
+    public function addUserSource(UserSource $userSource): static
+    {
+        if (!$this->userSources->contains($userSource)) {
+            $this->userSources->add($userSource);
+            $userSource->setSource($this);
         }
 
         return $this;

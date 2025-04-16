@@ -12,13 +12,31 @@
                 <p class="text-white">Flux:</p>
                 <select name="mode"
                         class="px-3 py-2 border border-black text-black bg-[#c0c0c0] shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
-                    <option value="all">Tous</option>
+                    <option value="all" {% if not app.request.query.get('source') %}selected{% endif %}>Tous</option>
                     {% for userSource in userSources %}
-                        <option value="{{ userSource.source.id }}">{{ userSource.customName }}</option>
+                        <option value="{{ userSource.source.id }}" {% if app.request.query.get('source') == userSource.source.id %}selected{% endif %}>
+                            {{ userSource.customName }}
+                        </option>
                     {% endfor %}
                 </select>
             </div>
         {% endif %}
+
+        <script>
+            document.querySelector('select[name="mode"]').addEventListener('change', function() {
+                const selectedValue = this.value;
+                const url = new URL(window.location.href);
+
+                if (selectedValue === 'all') {
+                    url.searchParams.delete('source');
+                } else {
+                    url.searchParams.set('source', selectedValue);
+                }
+
+                window.location.href = url.toString();
+            });
+        </script>
+
 
 
         <div class="flex items-center space-x-2">
@@ -36,8 +54,6 @@
                     <img src="{{ asset('build/images/shutdown.png') }}" alt="Logout" class="w-7 h-7">
                 </button>
             </form>
-
-
         </div>
     </nav>
 </nav>

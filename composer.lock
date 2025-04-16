@@ -7,55 +7,6 @@
     "content-hash": "df5769930fe946d02a7c56f99a5b46df",
     "packages": [
         {
-            "name": "brick/varexporter",
-            "version": "0.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/brick/varexporter.git",
-                "reference": "84b2a7a91f69aa5d079aec5a0a7256ebf2dceb6b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/brick/varexporter/zipball/84b2a7a91f69aa5d079aec5a0a7256ebf2dceb6b",
-                "reference": "84b2a7a91f69aa5d079aec5a0a7256ebf2dceb6b",
-                "shasum": ""
-            },
-            "require": {
-                "nikic/php-parser": "^5.0",
-                "php": "^7.4 || ^8.0"
-            },
-            "require-dev": {
-                "php-coveralls/php-coveralls": "^2.2",
-                "phpunit/phpunit": "^9.3",
-                "psalm/phar": "5.21.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Brick\\VarExporter\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A powerful alternative to var_export(), which can export closures and objects without __set_state()",
-            "keywords": [
-                "var_export"
-            ],
-            "support": {
-                "issues": "https://github.com/brick/varexporter/issues",
-                "source": "https://github.com/brick/varexporter/tree/0.5.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/BenMorel",
-                    "type": "github"
-                }
-            ],
-            "time": "2024-05-10T17:15:19+00:00"
-        },
-        {
             "name": "doctrine/cache",
             "version": "2.2.0",
             "source": {
@@ -1605,56 +1556,59 @@
         },
         {
             "name": "laminas/laminas-servicemanager",
-            "version": "4.4.0",
+            "version": "3.23.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-servicemanager.git",
-                "reference": "74da44d07e493b834347123242d0047976fb9932"
+                "reference": "a8640182b892b99767d54404d19c5c3b3699f79b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-servicemanager/zipball/74da44d07e493b834347123242d0047976fb9932",
-                "reference": "74da44d07e493b834347123242d0047976fb9932",
+                "url": "https://api.github.com/repos/laminas/laminas-servicemanager/zipball/a8640182b892b99767d54404d19c5c3b3699f79b",
+                "reference": "a8640182b892b99767d54404d19c5c3b3699f79b",
                 "shasum": ""
             },
             "require": {
-                "brick/varexporter": "^0.3.8 || ^0.4.0 || ^0.5.0",
                 "laminas/laminas-stdlib": "^3.19",
                 "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
-                "psr/container": "^1.1 || ^2.0"
+                "psr/container": "^1.0"
             },
             "conflict": {
+                "ext-psr": "*",
                 "laminas/laminas-code": "<4.10.0",
-                "zendframework/zend-code": "<3.3.1"
+                "zendframework/zend-code": "<3.3.1",
+                "zendframework/zend-servicemanager": "*"
             },
             "provide": {
-                "psr/container-implementation": "^1.0 || ^2.0"
+                "psr/container-implementation": "^1.0"
+            },
+            "replace": {
+                "container-interop/container-interop": "^1.2.0"
             },
             "require-dev": {
                 "composer/package-versions-deprecated": "^1.11.99.5",
                 "friendsofphp/proxy-manager-lts": "^1.0.18",
-                "laminas/laminas-cli": "^1.11",
-                "laminas/laminas-coding-standard": "~3.0.1",
-                "laminas/laminas-container-config-test": "^1.0",
+                "laminas/laminas-code": "^4.14.0",
+                "laminas/laminas-coding-standard": "~2.5.0",
+                "laminas/laminas-container-config-test": "^0.8",
                 "mikey179/vfsstream": "^1.6.12",
-                "phpbench/phpbench": "^1.4.0",
-                "phpunit/phpunit": "^10.5.44",
-                "psalm/plugin-phpunit": "^0.19.2",
-                "symfony/console": "^6.4.17 || ^7.0",
-                "vimeo/psalm": "^6.2.0"
+                "phpbench/phpbench": "^1.3.1",
+                "phpunit/phpunit": "^10.5.36",
+                "psalm/plugin-phpunit": "^0.18.4",
+                "vimeo/psalm": "^5.26.1"
             },
             "suggest": {
-                "friendsofphp/proxy-manager-lts": "To handle lazy initialization of services",
-                "laminas/laminas-cli": "To consume CLI commands provided by this component"
+                "friendsofphp/proxy-manager-lts": "ProxyManager ^2.1.1 to handle lazy initialization of services"
             },
+            "bin": [
+                "bin/generate-deps-for-config-factory",
+                "bin/generate-factory-for-class"
+            ],
             "type": "library",
-            "extra": {
-                "laminas": {
-                    "module": "Laminas\\ServiceManager",
-                    "config-provider": "Laminas\\ServiceManager\\ConfigProvider"
-                }
-            },
             "autoload": {
+                "files": [
+                    "src/autoload.php"
+                ],
                 "psr-4": {
                     "Laminas\\ServiceManager\\": "src/"
                 }
@@ -1676,9 +1630,11 @@
             ],
             "support": {
                 "chat": "https://laminas.dev/chat",
+                "docs": "https://docs.laminas.dev/laminas-servicemanager/",
                 "forum": "https://discourse.laminas.dev",
                 "issues": "https://github.com/laminas/laminas-servicemanager/issues",
-                "source": "https://github.com/laminas/laminas-servicemanager/tree/4.4.0"
+                "rss": "https://github.com/laminas/laminas-servicemanager/releases.atom",
+                "source": "https://github.com/laminas/laminas-servicemanager"
             },
             "funding": [
                 {
@@ -1686,7 +1642,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2025-02-04T06:13:50+00:00"
+            "time": "2024-10-28T21:32:16+00:00"
         },
         {
             "name": "laminas/laminas-stdlib",
@@ -1748,59 +1704,6 @@
             "time": "2024-10-29T13:46:07+00:00"
         },
         {
-            "name": "laminas/laminas-translator",
-            "version": "1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laminas/laminas-translator.git",
-                "reference": "12897e710e21413c1f93fc38fe9dead6b51c5218"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-translator/zipball/12897e710e21413c1f93fc38fe9dead6b51c5218",
-                "reference": "12897e710e21413c1f93fc38fe9dead6b51c5218",
-                "shasum": ""
-            },
-            "require": {
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0"
-            },
-            "require-dev": {
-                "laminas/laminas-coding-standard": "~3.0.0",
-                "vimeo/psalm": "^5.24.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Laminas\\Translator\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Interfaces for the Translator component of laminas-i18n",
-            "homepage": "https://laminas.dev",
-            "keywords": [
-                "i18n",
-                "laminas"
-            ],
-            "support": {
-                "chat": "https://laminas.dev/chat",
-                "docs": "https://docs.laminas.dev/laminas-i18n/",
-                "forum": "https://discourse.laminas.dev",
-                "issues": "https://github.com/laminas/laminas-translator/issues",
-                "rss": "https://github.com/laminas/laminas-translator/releases.atom",
-                "source": "https://github.com/laminas/laminas-translator"
-            },
-            "funding": [
-                {
-                    "url": "https://funding.communitybridge.org/projects/laminas-project",
-                    "type": "community_bridge"
-                }
-            ],
-            "time": "2024-10-21T15:33:01+00:00"
-        },
-        {
             "name": "laminas/laminas-uri",
             "version": "2.13.0",
             "source": {
@@ -1860,42 +1763,49 @@
         },
         {
             "name": "laminas/laminas-validator",
-            "version": "3.1.1",
+            "version": "2.64.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-validator.git",
-                "reference": "734d564aea1b71a28d8142620957c40e272435b7"
+                "reference": "771e504760448ac7af660710237ceb93be602e08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-validator/zipball/734d564aea1b71a28d8142620957c40e272435b7",
-                "reference": "734d564aea1b71a28d8142620957c40e272435b7",
+                "url": "https://api.github.com/repos/laminas/laminas-validator/zipball/771e504760448ac7af660710237ceb93be602e08",
+                "reference": "771e504760448ac7af660710237ceb93be602e08",
                 "shasum": ""
             },
             "require": {
-                "ext-ctype": "*",
-                "ext-fileinfo": "*",
-                "ext-filter": "*",
-                "ext-intl": "*",
-                "laminas/laminas-servicemanager": "^4.1.0",
+                "laminas/laminas-servicemanager": "^3.21.0",
                 "laminas/laminas-stdlib": "^3.19",
-                "laminas/laminas-translator": "^1.0",
                 "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
-                "psr/container": "^1.1 || ^2.0",
-                "psr/http-client": "^1.0.3",
-                "psr/http-factory": "^1.1.0",
                 "psr/http-message": "^1.0.1 || ^2.0.0"
             },
+            "conflict": {
+                "zendframework/zend-validator": "*"
+            },
             "require-dev": {
-                "laminas/laminas-coding-standard": "^3.0.1",
-                "laminas/laminas-diactoros": "^3.5.0",
-                "phpunit/phpunit": "^10.5.45",
-                "psalm/plugin-phpunit": "^0.19.2",
-                "vimeo/psalm": "^6.8.8"
+                "laminas/laminas-coding-standard": "^2.5",
+                "laminas/laminas-db": "^2.20",
+                "laminas/laminas-filter": "^2.35.2",
+                "laminas/laminas-i18n": "^2.26.0",
+                "laminas/laminas-session": "^2.20",
+                "laminas/laminas-uri": "^2.11.0",
+                "phpunit/phpunit": "^10.5.20",
+                "psalm/plugin-phpunit": "^0.19.0",
+                "psr/http-client": "^1.0.3",
+                "psr/http-factory": "^1.1.0",
+                "vimeo/psalm": "^5.24.0"
             },
             "suggest": {
+                "laminas/laminas-db": "Laminas\\Db component, required by the (No)RecordExists validator",
+                "laminas/laminas-filter": "Laminas\\Filter component, required by the Digits validator",
                 "laminas/laminas-i18n": "Laminas\\I18n component to allow translation of validation error messages",
-                "laminas/laminas-i18n-resources": "Translations of validator messages"
+                "laminas/laminas-i18n-resources": "Translations of validator messages",
+                "laminas/laminas-servicemanager": "Laminas\\ServiceManager component to allow using the ValidatorPluginManager and validator chains",
+                "laminas/laminas-session": "Laminas\\Session component, ^2.8; required by the Csrf validator",
+                "laminas/laminas-uri": "Laminas\\Uri component, required by the Uri and Sitemap\\Loc validators",
+                "psr/http-message": "psr/http-message, required when validating PSR-7 UploadedFileInterface instances via the Upload and UploadFile validators"
             },
             "type": "library",
             "extra": {
@@ -1933,7 +1843,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2025-04-13T13:09:24+00:00"
+            "time": "2024-11-26T21:29:17+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -2037,64 +1947,6 @@
                 }
             ],
             "time": "2025-03-24T10:02:05+00:00"
-        },
-        {
-            "name": "nikic/php-parser",
-            "version": "v5.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "447a020a1f875a434d62f2a401f53b82a396e494"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/447a020a1f875a434d62f2a401f53b82a396e494",
-                "reference": "447a020a1f875a434d62f2a401f53b82a396e494",
-                "shasum": ""
-            },
-            "require": {
-                "ext-ctype": "*",
-                "ext-json": "*",
-                "ext-tokenizer": "*",
-                "php": ">=7.4"
-            },
-            "require-dev": {
-                "ircmaxell/php-yacc": "^0.0.7",
-                "phpunit/phpunit": "^9.0"
-            },
-            "bin": [
-                "bin/php-parse"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "5.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "PhpParser\\": "lib/PhpParser"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Nikita Popov"
-                }
-            ],
-            "description": "A PHP parser written in PHP",
-            "keywords": [
-                "parser",
-                "php"
-            ],
-            "support": {
-                "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v5.4.0"
-            },
-            "time": "2024-12-30T11:07:19+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -2417,27 +2269,22 @@
         },
         {
             "name": "psr/container",
-            "version": "2.0.2",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/container.git",
-                "reference": "c71ecc56dfe541dbd90c5360474fbc405f8d5963"
+                "reference": "513e0666f7216c7459170d56df27dfcefe1689ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/container/zipball/c71ecc56dfe541dbd90c5360474fbc405f8d5963",
-                "reference": "c71ecc56dfe541dbd90c5360474fbc405f8d5963",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/513e0666f7216c7459170d56df27dfcefe1689ea",
+                "reference": "513e0666f7216c7459170d56df27dfcefe1689ea",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.4.0"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Psr\\Container\\": "src/"
@@ -2464,9 +2311,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-fig/container/issues",
-                "source": "https://github.com/php-fig/container/tree/2.0.2"
+                "source": "https://github.com/php-fig/container/tree/1.1.2"
             },
-            "time": "2021-11-05T16:47:00+00:00"
+            "time": "2021-11-05T16:50:12+00:00"
         },
         {
             "name": "psr/event-dispatcher",
@@ -2517,113 +2364,6 @@
                 "source": "https://github.com/php-fig/event-dispatcher/tree/1.0.0"
             },
             "time": "2019-01-08T18:20:26+00:00"
-        },
-        {
-            "name": "psr/http-client",
-            "version": "1.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/http-client.git",
-                "reference": "bb5906edc1c324c9a05aa0873d40117941e5fa90"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-client/zipball/bb5906edc1c324c9a05aa0873d40117941e5fa90",
-                "reference": "bb5906edc1c324c9a05aa0873d40117941e5fa90",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.0 || ^8.0",
-                "psr/http-message": "^1.0 || ^2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Http\\Client\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "https://www.php-fig.org/"
-                }
-            ],
-            "description": "Common interface for HTTP clients",
-            "homepage": "https://github.com/php-fig/http-client",
-            "keywords": [
-                "http",
-                "http-client",
-                "psr",
-                "psr-18"
-            ],
-            "support": {
-                "source": "https://github.com/php-fig/http-client"
-            },
-            "time": "2023-09-23T14:17:50+00:00"
-        },
-        {
-            "name": "psr/http-factory",
-            "version": "1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/http-factory.git",
-                "reference": "2b4765fddfe3b508ac62f829e852b1501d3f6e8a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/2b4765fddfe3b508ac62f829e852b1501d3f6e8a",
-                "reference": "2b4765fddfe3b508ac62f829e852b1501d3f6e8a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1",
-                "psr/http-message": "^1.0 || ^2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Http\\Message\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "https://www.php-fig.org/"
-                }
-            ],
-            "description": "PSR-17: Common interfaces for PSR-7 HTTP message factories",
-            "keywords": [
-                "factory",
-                "http",
-                "message",
-                "psr",
-                "psr-17",
-                "psr-7",
-                "request",
-                "response"
-            ],
-            "support": {
-                "source": "https://github.com/php-fig/http-factory"
-            },
-            "time": "2024-04-15T12:06:14+00:00"
         },
         {
             "name": "psr/http-message",
@@ -8543,6 +8283,64 @@
             "time": "2025-02-12T12:17:51+00:00"
         },
         {
+            "name": "nikic/php-parser",
+            "version": "v5.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nikic/PHP-Parser.git",
+                "reference": "447a020a1f875a434d62f2a401f53b82a396e494"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/447a020a1f875a434d62f2a401f53b82a396e494",
+                "reference": "447a020a1f875a434d62f2a401f53b82a396e494",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ctype": "*",
+                "ext-json": "*",
+                "ext-tokenizer": "*",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "ircmaxell/php-yacc": "^0.0.7",
+                "phpunit/phpunit": "^9.0"
+            },
+            "bin": [
+                "bin/php-parse"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PhpParser\\": "lib/PhpParser"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Nikita Popov"
+                }
+            ],
+            "description": "A PHP parser written in PHP",
+            "keywords": [
+                "parser",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/nikic/PHP-Parser/issues",
+                "source": "https://github.com/nikic/PHP-Parser/tree/v5.4.0"
+            },
+            "time": "2024-12-30T11:07:19+00:00"
+        },
+        {
             "name": "phar-io/manifest",
             "version": "2.0.4",
             "source": {
@@ -10628,7 +10426,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
@@ -10636,6 +10434,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "plugin-api-version": "2.6.0"
 }

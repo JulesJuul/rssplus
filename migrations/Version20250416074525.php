@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250415120139 extends AbstractMigration
+final class Version20250416074525 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,7 +21,16 @@ final class Version20250415120139 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
-            CREATE TABLE source (id SERIAL NOT NULL, url VARCHAR(255) NOT NULL, status VARCHAR(255) NOT NULL, last_synced_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))
+            CREATE TABLE article (id SERIAL NOT NULL, source_id INT NOT NULL, guid VARCHAR(255) DEFAULT NULL, title VARCHAR(255) NOT NULL, description VARCHAR(255) DEFAULT NULL, content TEXT DEFAULT NULL, link VARCHAR(255) NOT NULL, pub_date TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, author VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE INDEX IDX_23A0E66953C1C61 ON article (source_id)
+        SQL);
+        $this->addSql(<<<'SQL'
+            COMMENT ON COLUMN article.pub_date IS '(DC2Type:datetime_immutable)'
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE TABLE source (id SERIAL NOT NULL, url VARCHAR(255) NOT NULL, status INT NOT NULL, last_synced_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))
         SQL);
         $this->addSql(<<<'SQL'
             COMMENT ON COLUMN source.last_synced_at IS '(DC2Type:datetime_immutable)'
@@ -86,6 +95,9 @@ final class Version20250415120139 extends AbstractMigration
             CREATE TRIGGER notify_trigger AFTER INSERT OR UPDATE ON messenger_messages FOR EACH ROW EXECUTE PROCEDURE notify_messenger_messages();
         SQL);
         $this->addSql(<<<'SQL'
+            ALTER TABLE article ADD CONSTRAINT FK_23A0E66953C1C61 FOREIGN KEY (source_id) REFERENCES source (id) NOT DEFERRABLE INITIALLY IMMEDIATE
+        SQL);
+        $this->addSql(<<<'SQL'
             ALTER TABLE user_source ADD CONSTRAINT FK_3AD8644E64B64DCC FOREIGN KEY (userId) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE
         SQL);
         $this->addSql(<<<'SQL'
@@ -100,10 +112,16 @@ final class Version20250415120139 extends AbstractMigration
             CREATE SCHEMA public
         SQL);
         $this->addSql(<<<'SQL'
+            ALTER TABLE article DROP CONSTRAINT FK_23A0E66953C1C61
+        SQL);
+        $this->addSql(<<<'SQL'
             ALTER TABLE user_source DROP CONSTRAINT FK_3AD8644E64B64DCC
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE user_source DROP CONSTRAINT FK_3AD8644EEE155AE0
+        SQL);
+        $this->addSql(<<<'SQL'
+            DROP TABLE article
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE source

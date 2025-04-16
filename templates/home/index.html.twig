@@ -5,6 +5,7 @@
 
 {% block body %}
     {% include 'components/_navbar.html.twig' with { show_selector: false } %}
+    
     <div class="flex flex-col w-full h-full">
         {% include 'components/_navbar.html.twig' with { show_selector: true } %}
 
@@ -23,15 +24,55 @@
                                 <img src="https://64.media.tumblr.com/b22e49d8f52d0e90857458021399339d/63c60cacbd7469c6-f8/s540x810/672e574b011045df3ff463ddc3ddc98f88725fbd.png" alt="info" class="w-10 h-10">
                                 <p class="text-sm text-black">Vous n'avez encore ajouté aucun flux RSS.</p>
                                 <a href="{{ path('add_source') }}"
-                                class="px-4 py-1 bg-[#c0c0c0] border border-black text-sm text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
+                                   class="px-4 py-1 bg-[#c0c0c0] border border-black text-sm text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
                                     Ajouter un flux
                                 </a>
                             </div>
                         </div>
                     </div>
+                {% else %}
+                    {% set sourceId = app.request.query.get('source') %}
+                    
+                    {% set sourceId = app.request.query.get('source') %}
+
+                    {% if sourceId is empty %}
+                        {% set articles = articles %}
+                    {% else %}
+                        {% set selectedSource = userSources|filter(us => us.source.id == sourceId)|first %}
+                        {% set articles = selectedSource ? selectedSource.source.articles : [] %}
+                    {% endif %}
+
+                    {% if articles is empty %}
+                        <div class="flex items-center justify-center h-[60vh]">
+                            <div class="w-[360px] bg-[#f0f0f0] border border-gray-400 shadow-[4px_4px_0px_rgba(0,0,0,0.4)]">
+                                <div class="bg-[#000080] px-2 py-1 text-white flex justify-between items-center">
+                                    <span class="text-sm font-semibold">Information</span>
+                                    <button class="bg-[#c0c0c0] border border-black text-black text-xs w-5 h-5 shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">x</button>
+                                </div>
+                                <div class="p-4 text-center">
+                                    <img src="https://64.media.tumblr.com/b22e49d8f52d0e90857458021399339d/63c60cacbd7469c6-f8/s540x810/672e574b011045df3ff463ddc3ddc98f88725fbd.png" alt="info" class="mx-auto w-10 h-10 mb-3">
+                                    <p class="text-sm text-black">Aucun article trouvé pour cette source.</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+                            {% for article in articles %}
+                                <div class="bg-[#c0c0c0] border border-black p-4 shadow-[inset_-2px_-2px_0_#fff,inset_2px_2px_0_#404040]">
+                                    <div class="bg-[#000080] text-white px-2 py-1 text-sm font-semibold mb-2">
+                                        📰 {{ article.title }}
+                                    </div>
+                                    <p class="text-sm text-black mb-2">{{ article.description }}</p>
+                                    <a href="{{ article.link }}" target="_blank"
+                                        class="inline-block bg-[#f0f0f0] border border-black px-3 py-1 text-sm text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
+                                        Lire l'article
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 {% endif %}
             {% endif %}
         </div>
     </div>
 {% endblock %}
-
