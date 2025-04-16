@@ -10,11 +10,13 @@ use App\Form\EditUserSourceType;
 use App\Repository\UserSourceRepository;
 use App\Service\FeedSyncService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Symfony\Component\Security\Http\Attribute\IsCsrfTokenValid;
 
 class SourceController extends AbstractController
 {
@@ -173,6 +175,12 @@ class SourceController extends AbstractController
             methods: ["POST"]
         )
     ]
+    #[
+        IsCsrfTokenValid(
+            new Expression('"delete_user_source_" ~ args["sourceId"]'),
+            tokenKey: "_token"
+        )
+    ]
     public function deleteUserSource(
         int $sourceId,
         EntityManagerInterface $em,
@@ -196,18 +204,9 @@ class SourceController extends AbstractController
             return $this->redirectToRoute("user_sources");
         }
 
-        if (
-            $this->isCsrfTokenValid(
-                "delete_user_source_" . $sourceId,
-                $request->request->get("_token")
-            )
-        ) {
-            $em->remove($userSource);
-            $em->flush();
-            $this->addFlash("success", "Flux supprimé.");
-        } else {
-            $this->addFlash("error", "Jeton CSRF invalide.");
-        }
+        $em->remove($userSource);
+        $em->flush();
+        $this->addFlash("success", "Flux supprimé.");
 
         return $this->redirectToRoute("user_sources");
     }

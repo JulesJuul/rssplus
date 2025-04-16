@@ -37,18 +37,16 @@
                                     <div class="flex flex-row items-center space-x-2"><p>URL :</p><p class="text-xs">{{ userSource.source.url }}</p></div>
                                 </div>
                                 <div class="flex flex-row justify-end">
-                                    <a href="{{ path('add_source') }}"
-                                    class="inline-flex items-center justify-center px-3 py-1 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040] w-fit">
-                                        ↻
-                                    </a>
+                                    <form method="post" action="{{ path('sync_one', { id: userSource.source.id }) }}" class="inline">
+                                        <button type="submit"
+                                                class="inline-flex items-center justify-center px-3 py-1 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040] w-fit">
+                                            ↻
+                                        </button>
+                                    </form>
                                     <a href="{{ path('edit_user_source', { sourceId: userSource.source.id }) }}"
                                     class="inline-flex items-center justify-center px-3 py-1 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040] w-fit">
                                         ✒️
                                     </a>
-                                    <!-- <a href="{{ path('add_source') }}"
-                                    class="inline-flex items-center justify-center px-3 py-1 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040] w-fit">
-                                        🗑️
-                                    </a> -->
                                     <form method="post"
                                           action="{{ path('delete_user_source', { sourceId: userSource.source.id }) }}"
                                           onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce flux ?');"
@@ -70,10 +68,12 @@
                     class="inline-flex items-center justify-center px-3 py-1 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040] w-fit">
                         ➕ Ajouter un flux
                     </a>
-                    <a href="{{ path('add_source') }}"
-                    class="inline-flex items-center justify-center px-3 py-1 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040] w-fit">
-                        ↻
-                    </a>
+                    <form method="post" action="{{ path('sync_all') }}" class="inline">
+                        <button type="submit"
+                                class="inline-flex items-center justify-center px-3 py-1 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040] w-fit">
+                            ↻
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
