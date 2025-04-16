@@ -4,7 +4,7 @@
 
 {% block body %}
     {% include 'components/_navbar.html.twig' with { show_selector: false } %}
-    <div class="flex flex-col items-center justify-center w-full h-full">
+    <div class="flex flex-col items-center justify-center w-full h-screen">
         <div class="flex flex-col items-center gap-4 bg-[#f0f0f0] border border-gray-300 shadow-inner w-full max-w-lg mx-auto">
             <div class="p-1 w-full">
                 <div class="relative bg-[#000080] w-full">
@@ -24,7 +24,7 @@
             {# Formulaire d'ajout de flux #}
             <div class="flex flex-col items-start p-4 gap-4">
                 {{ form_start(form) }}
-                
+
                 <div class="flex flex-col gap-2">
                     <label for="customName" class="text-sm font-thin text-black">Nom du flux:</label>
                     {{ form_widget(form.customName, {'attr': {'class': 'px-2 py-1 border border-gray-400 bg-gray-100 text-black shadow-inner focus:outline-none focus:ring-1 focus:ring-blue-400'}}) }}
@@ -32,7 +32,7 @@
 
                 <div class="flex flex-col gap-2">
                     <label for="url" class="text-sm font-thin text-black">URL du flux RSS:</label>
-                    <input type="text" value="{{ userSource.source.url }}" 
+                    <input type="text" value="{{ userSource.source.url }}"
                         class="px-2 py-1 border border-gray-400 text-black bg-gray-200 shadow-inner focus:outline-none focus:ring-1 focus:ring-blue-400 cursor-not-allowed"
                         readonly />
                 </div>
@@ -40,7 +40,7 @@
                 <button type="submit" class="px-3 py-0.5 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040] mt-4">
                     Sauvegarder
                 </button>
-                
+
                 {{ form_end(form) }}
             </div>
         </div>
