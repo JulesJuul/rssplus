@@ -5,11 +5,11 @@
 
 {% block body %}
     {% include 'components/_navbar.html.twig' with { show_selector: false } %}
-    
+
     <div class="flex flex-col w-full h-full">
         {% include 'components/_navbar.html.twig' with { show_selector: true } %}
 
-        <div class="p-6">
+        <div class="pt-24 p-6">
             <h1 class="text-xl font-semibold mb-4 text-[#000080]">Bienvenue sur votre lecteur RSS</h1>
 
             {% if app.user %}
@@ -32,7 +32,7 @@
                     </div>
                 {% else %}
                     {% set sourceId = app.request.query.get('source') %}
-                    
+
                     {% set sourceId = app.request.query.get('source') %}
 
                     {% if sourceId is empty %}
@@ -58,15 +58,24 @@
                     {% else %}
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
                             {% for article in articles %}
-                                <div class="bg-[#c0c0c0] border border-black p-4 shadow-[inset_-2px_-2px_0_#fff,inset_2px_2px_0_#404040]">
-                                    <div class="bg-[#000080] text-white px-2 py-1 text-sm font-semibold mb-2">
-                                        📰 {{ article.title }}
+                                <div class="flex flex-col justify-between bg-[#c0c0c0] border border-black p-4 shadow-[inset_-2px_-2px_0_#fff,inset_2px_2px_0_#404040]">
+                                    <div class="flex flex-col">
+                                        <div class="bg-[#000080] text-white px-2 py-1 text-sm font-semibold mb-2">
+                                            📰 {{ article.title }}
+                                        </div>
+                                        <p class="text-sm text-black mb-2 truncate4">{{ article.description }}</p>
                                     </div>
-                                    <p class="text-sm text-black mb-2">{{ article.description }}</p>
-                                    <a href="{{ article.link }}" target="_blank"
-                                        class="inline-block bg-[#f0f0f0] border border-black px-3 py-1 text-sm text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
-                                        Lire l'article
-                                    </a>
+                                    <div class="flex flex-row justify-between">
+                                        <div class="w-1/2">
+                                            <a href="{{ article.link }}" target="_blank"
+                                                class="inline-block bg-[#f0f0f0] border border-black px-3 py-1 text-sm text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
+                                                Ouvrir
+                                            </a>
+                                        </div>
+                                        <p>
+                                            {{ article.pubDate|date('d/m/Y') }}
+                                        </p>
+                                    </div>
                                 </div>
                             {% endfor %}
                         </div>
