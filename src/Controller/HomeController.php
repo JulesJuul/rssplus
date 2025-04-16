@@ -4,9 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\UserSource;
-use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Laminas\Validator\NotEmpty;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,9 +26,11 @@ class HomeController extends AbstractController
 
         $request = $requestStack->getCurrentRequest();
         $sourceParam = $request->query->get('source');
+        $dateParam = $request->query->get('date');
 
         $articles = [];
 
+        // 🔍 Filtrage par source
         if ($sourceParam && $sourceParam != '') {
             $selectedUserSource = array_filter($userSources, function ($us) use ($sourceParam) {
                 return $us->getSource()->getId() == $sourceParam;
@@ -48,9 +48,48 @@ class HomeController extends AbstractController
             }
         }
 
+        // 🔍 Filtrage par date
+        if ($dateParam && $dateParam !== 'all') {
+            $now = new \DateTime();
+            $filteredArticles = [];
+
+            foreach ($articles as $article) {
+                $publishedAt = $article->getPubDate();
+
+                if (!$publishedAt) {
+                    continue;
+                }
+
+                switch ($dateParam) {
+                    case 'Aujourd\'hui':
+                        if ($publishedAt->format('Y-m-d') === $now->format('Y-m-d')) {
+                            $filteredArticles[] = $article;
+                        }
+                        break;
+
+                    case 'Semaine':
+                        $startOfWeek = (clone $now)->modify('monday this week');
+                        $endOfWeek = (clone $startOfWeek)->modify('+6 days');
+                        if ($publishedAt >= $startOfWeek && $publishedAt <= $endOfWeek) {
+                            $filteredArticles[] = $article;
+                        }
+                        break;
+
+                    case 'Mois':
+                        if ($publishedAt->format('Y-m') === $now->format('Y-m')) {
+                            $filteredArticles[] = $article;
+                        }
+                        break;
+                }
+            }
+
+            $articles = $filteredArticles;
+        }
+
         return $this->render('home/index.html.twig', [
             'userSources' => $userSources,
             'articles' => $articles,
+            'availableDates' => ['Aujourd\'hui', 'Semaine', 'Mois'],
         ]);
     }
 }
