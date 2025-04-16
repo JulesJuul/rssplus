@@ -75,6 +75,17 @@ Encore
 	// uncomment if you're having problems with a jQuery plugin
 	//.autoProvidejQuery()
 	.enablePostCssLoader()
-	.setManifestKeyPrefix("build/");
+	.setManifestKeyPrefix("build/")
+	.configureWatchOptions((watchOptions) => {
+		watchOptions.poll = 250;
+		watchOptions.ignored = [
+			"**/*.php",
+			"**/node_modules",
+			"**/public",
+			"**/var",
+			"**/vendor",
+			"**/*.log",
+		];
+	});
 
 module.exports = Encore.getWebpackConfig();
