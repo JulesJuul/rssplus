@@ -83,6 +83,10 @@ class HomeController extends AbstractController
             $articles = $filteredArticles;
         }
 
+        usort($articles, function ($a, $b) {
+            return $b->getPubDate() <=> $a->getPubDate();
+        });
+
         return $this->render('home/index.html.twig', [
             'userSources' => $userSources,
             'articles' => $articles,

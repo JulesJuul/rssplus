@@ -3,65 +3,55 @@
 {% block title %}Inscription{% endblock %}
 
 {% block body %}
-    <div class="flex justify-center items-center h-full w-full">
-        {{ form_start(registrationForm) }}
-            <div class="flex flex-col items-start gap-4 bg-[#f0f0f0] border border-gray-300 shadow-inner w-fit">
-                <div class="p-1 w-full">
-                    <div class="relative bg-[#000080] w-full">
-                        <h1 class="text-white text-center font-thin">Inscription</h1>
-                        <button class="absolute top-[2px] right-[2px] w-5 h-5 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">?</button>
-                    </div>
-                </div>
+<div class="flex justify-center items-center h-screen cursor-windows-xp">
+    <form method="post" id="registerForm" class="bg-[#f0f0f0] border border-gray-500 shadow-[4px_4px_0px_rgba(0,0,0,0.4)] w-[360px]">
+        <div class="bg-[#000080] px-2 py-1 text-white flex justify-between items-center">
+            <span class="text-sm font-bold">Inscription</span>
+            <button type="button" class="bg-[#c0c0c0] border border-black w-5 h-5 text-xs font-bold text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">X</button>
+        </div>
 
-                <div class="flex flex-col items-start p-4 gap-4">
-                    {{ form_row(registrationForm.username, {
-                        'label': 'Nom d\'utilisateur',
-                        'attr': {
-                            'class': 'px-2 py-1 border border-gray-400 bg-gray-100 text-black shadow-inner focus:outline-none focus:ring-1 focus:ring-blue-400'
-                        },
-                        'label_attr': {
-                            'class': 'text-sm font-thin text-black block mb-1'
-                        },
-                        'row_attr': {
-                            'class': 'flex flex-col items-start'
-                        }
-                    }) }}
+        <div class="p-4 flex flex-col gap-3">
+            {{ form_start(registrationForm, {'attr': {'class': 'flex flex-col gap-3'}}) }}
 
-                    {{ form_row(registrationForm.plainPassword, {
-                        'label': 'Mot de passe',
-                        'attr': {
-                            'class': 'px-2 py-1 border border-gray-400 bg-gray-100 text-black shadow-inner focus:outline-none focus:ring-1 focus:ring-blue-400'
-                        },
-                        'label_attr': {
-                            'class': 'text-sm font-thin text-black block mb-1'
-                        },
-                        'row_attr': {
-                            'class': 'flex flex-col items-start'
-                        }
-                    }) }}
+            {{ form_row(registrationForm.username, {
+                'label': 'Nom d\'utilisateur',
+                'attr': {
+                    'class': 'w-full px-2 py-1 border border-gray-500 bg-[#ffffff] text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040] focus:outline-none'
+                },
+                'label_attr': {
+                    'class': 'text-sm text-black'
+                }
+            }) }}
 
-                    {{ form_row(registrationForm.agreeTerms, {
-                        'label': 'Accepter les termes',
-                        'attr': {
-                            'class': 'px-2 py-1 border border-gray-400 bg-gray-100 text-black shadow-inner focus:outline-none focus:ring-1 focus:ring-blue-400'
-                        },
-                        'label_attr': {
-                            'class': 'text-sm font-thin text-black block mb-1'
-                        },
-                        'row_attr': {
-                            'class': 'flex flex-row items-center space-x-2'
-                        }
-                    }) }}
+            {{ form_row(registrationForm.plainPassword, {
+                'label': 'Mot de passe',
+                'attr': {
+                    'class': 'w-full px-2 py-1 border border-gray-500 bg-[#ffffff] text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040] focus:outline-none'
+                },
+                'label_attr': {
+                    'class': 'text-sm text-black'
+                }
+            }) }}
 
-                    <button type="submit" class="px-3 py-0.5 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
-                        S'inscrire
-                    </button>
+            {{ form_row(registrationForm.agreeTerms, {
+                'label': 'Accepter les termes',
+                'label_attr': {
+                    'class': 'text-sm text-black'
+                }
+            }) }}
 
-                    {{ form_errors(registrationForm) }}
+            <button type="submit"
+                class="mt-2 w-fit px-4 py-1 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
+                S'inscrire
+            </button>
 
-                    <a href="{{ path('app_login') }}" class="text-sm text-[#000080] hover:underline">J'ai déjà un compte</a>
-                </div>
-            </div>
-        {{ form_end(registrationForm) }}
-    </div>
+            {{ form_errors(registrationForm) }}
+
+            <a href="{{ path('app_login') }}"
+               class="text-sm text-[#000080] underline-offset-2 hover:underline mt-1">J'ai déjà un compte</a>
+
+            {{ form_end(registrationForm) }}
+        </div>
+    </form>
+</div>
 {% endblock %}
