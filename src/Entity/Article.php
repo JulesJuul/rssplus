@@ -39,6 +39,9 @@ class Article
     #[ORM\JoinColumn(nullable: false)]
     private ?Source $source = null;
 
+    #[ORM\Column(type: 'json', nullable: true)]
+    private ?array $categories = [];
+
     public function getId(): ?int
     {
         return $this->id;
@@ -137,6 +140,17 @@ class Article
     {
         $this->source = $source;
 
+        return $this;
+    }
+
+    public function getCategories(): ?array
+    {
+        return $this->categories;
+    }
+
+    public function setCategories(?array $categories): self
+    {
+        $this->categories = $categories;
         return $this;
     }
 }

@@ -95,16 +95,24 @@ class HomeController extends AbstractController
             $searchQuery = mb_strtolower($searchQuery);
 
             foreach ($articles as $article) {
-                $title = mb_strtolower($article->getTitle());
-                $description = mb_strtolower($article->getDescription());
+                $title = mb_strtolower($article->getTitle() ?? '');
+                $description = mb_strtolower($article->getDescription() ?? '');
 
-                if (str_contains($title, $searchQuery) || str_contains($description, $searchQuery)) {
+                $categories = $article->getCategories() ?? [];
+                $categoriesText = mb_strtolower(implode(', ', $categories));
+
+                if (
+                    str_contains($title, $searchQuery) ||
+                    str_contains($description, $searchQuery) ||
+                    str_contains($categoriesText, $searchQuery)
+                ) {
                     $filteredArticles[] = $article;
                 }
             }
 
             $articles = $filteredArticles;
         }
+
 
 
         return $this->render('home/index.html.twig', [

@@ -37,6 +37,19 @@ class FeedSyncService
             $article->setDescription(trim($entry->getDescription()));
             $article->setContent(trim($entry->getContent()));
 
+            $categories = [];
+
+            if ($entry->getCategories()) {
+                foreach ($entry->getCategories() as $category) {
+                    $label = $category['label'] ?? (string) $category;
+                    if ($label) {
+                        $categories[] = trim($label);
+                    }
+                }
+            }
+
+            $article->setCategories(!empty($categories) ? $categories : null);
+
             $author = $entry->getAuthor();
             $name = $author["name"] ?? null;
             $article->setAuthor($name !== null ? trim($name) : null);
