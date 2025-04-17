@@ -87,10 +87,31 @@ class HomeController extends AbstractController
         usort($articlesArray, fn($a, $b) => $b->getPubDate() <=> $a->getPubDate());
         $articles = $articlesArray;
 
+
+        $searchQuery = $request->query->get('q');
+
+        if ($searchQuery) {
+            $filteredArticles = [];
+            $searchQuery = mb_strtolower($searchQuery);
+
+            foreach ($articles as $article) {
+                $title = mb_strtolower($article->getTitle());
+                $description = mb_strtolower($article->getDescription());
+
+                if (str_contains($title, $searchQuery) || str_contains($description, $searchQuery)) {
+                    $filteredArticles[] = $article;
+                }
+            }
+
+            $articles = $filteredArticles;
+        }
+
+
         return $this->render('home/index.html.twig', [
             'userSources' => $userSources,
             'articles' => $articles,
             'availableDates' => ['Aujourd\'hui', 'Semaine', 'Mois'],
+            'searchQuery' => $searchQuery,
         ]);
     }
 }
