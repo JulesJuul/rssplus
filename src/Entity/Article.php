@@ -39,8 +39,10 @@ class Article
     #[ORM\JoinColumn(nullable: false)]
     private ?Source $source = null;
 
-    #[ORM\Column(type: 'json', nullable: true)]
+    #[ORM\Column(type: "json", nullable: true)]
     private ?array $categories = [];
+
+    private bool $isRead = false;
 
     public function getId(): ?int
     {
@@ -151,6 +153,16 @@ class Article
     public function setCategories(?array $categories): self
     {
         $this->categories = $categories;
+    }
+
+    public function isRead(): bool
+    {
+        return $this->isRead;
+    }
+
+    public function setIsRead(bool $isRead): static
+    {
+        $this->isRead = $isRead;
         return $this;
     }
 }

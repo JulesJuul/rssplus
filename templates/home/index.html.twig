@@ -29,7 +29,7 @@
             {% if app.user %}
                 {% if articles is not empty %}
                     <div class="w-fit ml-0 mt-2 px-2 py-1 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
-                        {{ articles|length }} article{{ articles|length > 1 ? 's' : '' }} trouvé{{ articles|length > 1 ? 's' : '' }}
+                        {{ articles|length }} article{{ articles|length > 1 ? 's' : '' }} trouvé{{ articles|length > 1 ? 's' : '' }} ({{ articles|length-articles|length }} non lu)
                     </div>
                 {% endif %}
                 {% if userSources is empty %}
@@ -69,7 +69,7 @@
                     {% else %}
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
                             {% for article in articles %}
-                                <div class="flex flex-col justify-between bg-[#c0c0c0] border border-black p-4 shadow-[inset_-2px_-2px_0_#fff,inset_2px_2px_0_#404040]">
+                                <div class="flex flex-col justify-between {{ article.isRead ? 'bg-gray-500' : 'bg-[#c0c0c0]' }} border border-black p-4 shadow-[inset_-2px_-2px_0_#fff,inset_2px_2px_0_#404040]">
                                     <div class="flex flex-col">
                                         {% if not sourceId and article.source.userSources is defined and article.source.userSources|length > 0 %}
                                             <div class="bg-[#0000AA] text-white px-2 py-1 text-sm font-semibold">
