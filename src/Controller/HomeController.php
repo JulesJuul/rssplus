@@ -151,6 +151,11 @@ class HomeController extends AbstractController
         return $this->render("home/index.html.twig", [
             "userSources" => $userSources,
             "articles" => $articles,
+            "articleNotReadNb" => is_array($articles)
+                ? count(
+                    array_filter($articles, fn($article) => !$article->isRead())
+                )
+                : 0,
             "availableDates" => ['Aujourd\'hui', "Semaine", "Mois"],
             "searchQuery" => $searchQuery,
         ]);

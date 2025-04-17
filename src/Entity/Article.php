@@ -153,6 +153,7 @@ class Article
     public function setCategories(?array $categories): self
     {
         $this->categories = $categories;
+        return $this;
     }
 
     public function isRead(): bool

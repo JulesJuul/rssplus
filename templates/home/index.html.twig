@@ -29,7 +29,11 @@
             {% if app.user %}
                 {% if articles is not empty %}
                     <div class="w-fit ml-0 mt-2 px-2 py-1 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
-                        {{ articles|length }} article{{ articles|length > 1 ? 's' : '' }} trouvé{{ articles|length > 1 ? 's' : '' }} ({{ articles|length-articles|length }} non lu)
+                    {% if articleNotReadNb > 0 %}
+                        {{ articles|length }} article{{ articles|length > 1 ? 's' : '' }} trouvé{{ articles|length > 1 ? 's' : '' }} ({{ articleNotReadNb }} non lu)
+                    {% else %}
+                        {{ articles|length }} article{{ articles|length > 1 ? 's' : '' }} trouvé{{ articles|length > 1 ? 's' : '' }}
+                    {% endif %}
                     </div>
                 {% endif %}
                 {% if userSources is empty %}
