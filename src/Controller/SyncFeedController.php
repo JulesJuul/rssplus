@@ -11,6 +11,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SyncFeedController extends AbstractController
 {
+    public function syncAllAdmin(
+        SourceRepository $sourceRepo,
+        FeedSyncService $feedSyncService
+    ): bool {
+        $sources = $sourceRepo->findAll();
+
+        foreach ($sources as $source) {
+            $feedSyncService->sync($source);
+        }
+
+        return true;
+    }
+
     #[Route("/sync", name: "sync_all", methods: ["POST"])]
     public function syncAll(
         UserSourceRepository $userSourceRepository,
