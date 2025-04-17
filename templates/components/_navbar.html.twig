@@ -17,7 +17,6 @@
     </div>
 
     <div class="flex flex-1 justify-between px-2">
-
       <div class="flex items-center space-x-2">
         <a href="{{ path('app_home') }}" class="block px-2 py-1 bg-[#dcdcdc] hover:bg-[#b0b0b0] border border-black shadow-inner">
           🏠 Accueil
@@ -30,25 +29,25 @@
         </a>
       </div>
 
-{% if show_selector is not defined or show_selector %}
-    <div class="flex items-center justify-center space-x-2">
-      <select name="mode" class="px-2 py-1 text-black border border-black bg-[#c0c0c0] shadow-inner">
-        <option value="all" {% if not app.request.query.get('source') %}selected{% endif %}>Tous les flux</option>
-        {% for userSource in userSources %}
-        <option value="{{ userSource.source.id }}" {% if app.request.query.get('source') == userSource.source.id %}selected{% endif %}>
-          {{ userSource.customName }}
-        </option>
-        {% endfor %}
-      </select>
-      <select name="date" class="px-2 py-1 text-black border border-black bg-[#c0c0c0] shadow-inner">
-        <option value="all" {% if not app.request.query.get('date') %}selected{% endif %}>Toutes les dates</option>
-        {% for date in availableDates %}
-        <option value="{{ date }}" {% if app.request.query.get('date') == date %}selected{% endif %}>{{ date }}</option>
-        {% endfor %}
-      </select>
-    </div>
-{% endif %}
-      
+      <!-- SELECTOR -->
+      {% if show_selector is not defined or show_selector %}
+      <div class="flex items-center justify-center space-x-2">
+        <select name="mode" class="px-2 py-1 text-black border border-black bg-[#c0c0c0] shadow-inner">
+          <option value="all" {% if not app.request.query.get('source') %}selected{% endif %}>Tous les flux</option>
+          {% for userSource in userSources %}
+          <option value="{{ userSource.source.id }}" {% if app.request.query.get('source') == userSource.source.id %}selected{% endif %}>
+            {{ userSource.customName }}
+          </option>
+          {% endfor %}
+        </select>
+        <select name="date" class="px-2 py-1 text-black border border-black bg-[#c0c0c0] shadow-inner">
+          <option value="all" {% if not app.request.query.get('date') %}selected{% endif %}>Toutes les dates</option>
+          {% for date in availableDates %}
+          <option value="{{ date }}" {% if app.request.query.get('date') == date %}selected{% endif %}>{{ date }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      {% endif %}
 
       <div class="flex items-center">
         <form action="/logout" method="post">
@@ -59,37 +58,38 @@
       </div>
     </div>
 
-    <!-- Horloge -->
+    <!-- Fake Horloge -->
     <div class="flex items-center space-x-3 pr-4 text-white">
       <span class="text-xs" id="clock">00:00</span>
     </div>
   </div>
 </div>
 
+<!-- URL PARAMS -->
 <script>
-            document.querySelector('select[name="mode"]').addEventListener('change', function() {
-                const selectedValue = this.value;
-                const url = new URL(window.location.href);
+  document.querySelector('select[name="mode"]').addEventListener('change', function() {
+    const selectedValue = this.value;
+    const url = new URL(window.location.href);
 
-                if (selectedValue === 'all') {
-                    url.searchParams.delete('source');
-                } else {
-                    url.searchParams.set('source', selectedValue);
-                }
+    if (selectedValue === 'all') {
+      url.searchParams.delete('source');
+    } else {
+      url.searchParams.set('source', selectedValue);
+    }
 
-                window.location.href = url.toString();
-            });
+    window.location.href = url.toString();
+  });
 
-            document.querySelector('select[name="date"]').addEventListener('change', function() {
-                const selectedValue = this.value;
-                const url = new URL(window.location.href);
+  document.querySelector('select[name="date"]').addEventListener('change', function() {
+    const selectedValue = this.value;
+    const url = new URL(window.location.href);
 
-                if (selectedValue === 'all') {
-                    url.searchParams.delete('date');
-                } else {
-                    url.searchParams.set('date', selectedValue);
-                }
+    if (selectedValue === 'all') {
+      url.searchParams.delete('date');
+    } else {
+      url.searchParams.set('date', selectedValue);
+    }
 
-                window.location.href = url.toString();
-            });
-        </script>
+    window.location.href = url.toString();
+  });
+</script>

@@ -35,6 +35,7 @@ class HomeController extends AbstractController
 
         $articles = [];
 
+        
         if ($sourceParam && $sourceParam != "") {
             $selectedUserSource = array_filter($userSources, function (
                 $us
@@ -54,7 +55,7 @@ class HomeController extends AbstractController
             }
         }
 
-        // filters
+        // date filter
         if ($dateParam && $dateParam !== "all") {
             $now = new \DateTime();
             $filteredArticles = [];
@@ -100,7 +101,7 @@ class HomeController extends AbstractController
             $articles = $filteredArticles;
         }
 
-        // add user articles in articles
+        // mark articles as read
         foreach ($articles as $article) {
             foreach ($userArticles as $userArticle) {
                 if ($userArticle->getArticle()->getId() === $article->getId()) {
@@ -110,6 +111,7 @@ class HomeController extends AbstractController
             }
         }
 
+        // sort articles by read status and publication date
         $articlesArray =
             $articles instanceof \Doctrine\Common\Collections\Collection
                 ? $articles->toArray()
@@ -123,6 +125,7 @@ class HomeController extends AbstractController
         );
         $articles = $articlesArray;
 
+        // search filter
         $searchQuery = $request->query->get("q");
 
         if ($searchQuery) {

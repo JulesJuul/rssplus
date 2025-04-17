@@ -6,6 +6,7 @@
 {% block body %}
     {% include 'components/_navbar.html.twig' with { show_selector: true } %}
 
+    <!-- Search bar -->
     <div class="w-full px-6 pt-4">
         <form method="get" class="w-full max-w-2xl mx-auto flex items-center space-x-2 bg-[#c0c0c0] border border-black p-2 shadow-[inset_-2px_-2px_0_#fff,inset_2px_2px_0_#404040]">
             <input
@@ -28,6 +29,7 @@
         <div class="pb-12 p-6">
             {% if app.user %}
                 {% if articles is not empty %}
+                    <!-- Display the number of articles found -->
                     <div class="w-fit ml-0 mt-2 px-2 py-1 text-sm bg-[#c0c0c0] border border-black text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">
                     {% if articleNotReadNb > 0 %}
                         {{ articles|length }} article{{ articles|length > 1 ? 's' : '' }} trouvé{{ articles|length > 1 ? 's' : '' }} ({{ articleNotReadNb }} non lu)
@@ -37,6 +39,7 @@
                     </div>
                 {% endif %}
                 {% if userSources is empty %}
+                    <!-- Display a message if no sources are available -->
                     <div class="flex items-center justify-center h-[80vh]">
                         <div class="w-[360px] bg-[#f0f0f0] border border-gray-400 shadow-[4px_4px_0px_rgba(0,0,0,0.4)]">
                             <div class="bg-[#000080] px-2 py-1 text-white flex justify-between items-center">
@@ -58,6 +61,7 @@
                     {% set date = app.request.query.get('date') %}
 
                     {% if articles is empty %}
+                        <!-- Display a message if no articles are found -->
                         <div class="flex items-center justify-center h-[60vh]">
                             <div class="w-[360px] bg-[#f0f0f0] border border-gray-400 shadow-[4px_4px_0px_rgba(0,0,0,0.4)]">
                                 <div class="bg-[#000080] px-2 py-1 text-white flex justify-between items-center">
@@ -71,6 +75,7 @@
                             </div>
                         </div>
                     {% else %}
+                        <!-- Display the articles -->
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
                             {% for article in articles %}
                                 <div class="flex flex-col justify-between {{ article.isRead ? 'bg-gray-500' : 'bg-[#c0c0c0]' }} border border-black p-4 shadow-[inset_-2px_-2px_0_#fff,inset_2px_2px_0_#404040]">

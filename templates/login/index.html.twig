@@ -5,14 +5,11 @@
 {% block body %}
 <div class="flex justify-center items-center h-screen cursor-windows-xp">
     <form action="{{ path('app_login') }}" method="post" id="loginForm" class="bg-[#f0f0f0] border border-gray-500 shadow-[4px_4px_0px_rgba(0,0,0,0.4)] w-[360px]">
-        <!-- Title bar -->
         <div class="bg-[#000080] px-2 py-1 text-white flex justify-between items-center">
             <span class="text-sm font-bold">Connexion</span>
-            <!-- Votre bouton de fermeture initial -->
             <button type="button" id="closeBtn" class="bg-[#c0c0c0] border border-black w-5 h-5 text-xs font-bold text-black shadow-[inset_-1px_-1px_0_#fff,inset_1px_1px_0_#404040]">X</button>
         </div>
 
-        <!-- Inner form -->
         <div class="p-4 flex flex-col gap-3">
             <label for="username" class="text-sm text-black">Nom d'utilisateur :</label>
             <input type="text" id="username" name="_username" value="{{ last_username }}" required

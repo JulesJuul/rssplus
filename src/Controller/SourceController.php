@@ -20,6 +20,7 @@ use Symfony\Component\Security\Http\Attribute\IsCsrfTokenValid;
 
 class SourceController extends AbstractController
 {
+    // Add a new flow
     #[Route("/flux/add", name: "add_source")]
     public function add(
         Request $request,
@@ -34,9 +35,11 @@ class SourceController extends AbstractController
         $form = $this->createForm(AddSourceType::class, $source);
         $form->handleRequest($request);
 
+        // Check if the form is submitted and valid
         if ($form->isSubmitted() && $form->isValid()) {
             $url = $source->getUrl();
 
+            // Check if the URL is valid
             if (!filter_var($url, FILTER_VALIDATE_URL)) {
                 $this->addFlash("error", 'L\'URL fournie n\'est pas valide.');
                 return $this->redirectToRoute("add_source");
@@ -45,6 +48,7 @@ class SourceController extends AbstractController
             $headers = get_headers($url, 1);
             $contentType = null;
 
+            // Check if headers were retrieved successfully
             if ($headers === false || $headers === null) {
                 $this->addFlash(
                     "error",
@@ -71,10 +75,12 @@ class SourceController extends AbstractController
                 return $this->redirectToRoute("add_source");
             }
 
+            // Check if the URL is already in the database
             $existingSource = $em
                 ->getRepository(Source::class)
                 ->findOneBy(["url" => $url]);
 
+            // If not found, create a new Source entity
             if ($existingSource) {
                 $source = $existingSource;
             } else {
@@ -86,6 +92,7 @@ class SourceController extends AbstractController
                 $em->flush();
             }
 
+            // Check if the source is already in the user's list
             try {
                 $userSource = new UserSource();
                 $userSource->setUser($this->getUser());
@@ -118,6 +125,7 @@ class SourceController extends AbstractController
         ]);
     }
 
+    // List all flows
     #[Route("/flows", name: "user_sources")]
     public function manage(EntityManagerInterface $em): Response
     {
@@ -132,6 +140,7 @@ class SourceController extends AbstractController
         ]);
     }
 
+    // Edit a flow
     #[Route("/flow/edit/{sourceId}", name: "edit_user_source")]
     public function editUserSource(
         int $sourceId,
@@ -168,6 +177,7 @@ class SourceController extends AbstractController
         ]);
     }
 
+    // Delete a flow
     #[
         Route(
             "/flow/delete/{sourceId}",

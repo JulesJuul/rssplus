@@ -13,7 +13,6 @@
                 </div>
             </div>
 
-            {# Affichage des messages d'erreur #}
             {% for message in app.flashes('error') %}
                 <div class="flex flex-row items-center gap-2 p-4 bg-red-100 border border-red-500 text-red-700 rounded-md">
                     <img class="w-9 h-9" src="https://64.media.tumblr.com/b22e49d8f52d0e90857458021399339d/63c60cacbd7469c6-f8/s540x810/672e574b011045df3ff463ddc3ddc98f88725fbd.png" alt="Error">
@@ -21,7 +20,6 @@
                 </div>
             {% endfor %}
 
-            {# Formulaire d'ajout de flux #}
             <div class="flex flex-col items-start p-4 gap-4">
                 {{ form_start(form) }}
 
