@@ -9,6 +9,8 @@ import "./bootstrap.js";
 // any CSS you import will output into a single css file (app.css in this case)
 import "./styles/app.css";
 
+import demarrer from "./images/demarrer.png";
+import liked from "./images/liked.png";
+import notLiked from "./images/notLiked.png";
 import rssplus from "./images/rssplus.png";
 import shutdown from "./images/shutdown.png";
-import demarrer from "./images/demarrer.png";
