@@ -62,37 +62,37 @@
           const likeBtn = document.getElementById('like-btn');
           const likesCount = document.getElementById('likes-count');
 
-          if (likeBtn && !likeBtn.dataset.initialized) {
-            likeBtn.dataset.initialized = 'true';
-            likeBtn.addEventListener('click', () => {
-                const liked = likeBtn.dataset.liked === '1';
+          const newLikeBtn = likeBtn.cloneNode(true);
+          likeBtn.replaceWith(newLikeBtn);
 
-                fetch('{{ path('like_article', { articleId: article.id }) }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest',
-                    },
-                    body: JSON.stringify({
-                        _token: '{{ csrf_token('like_article_' ~ article.id) }}'
-                    }),
-                    credentials: 'same-origin'
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        likeBtn.src = data.liked
-                            ? '{{ asset("build/images/liked.png") }}'
-                            : '{{ asset("build/images/notLiked.png") }}';
+          newLikeBtn.addEventListener('click', () => {
+            const liked = newLikeBtn.dataset.liked === '1';
 
-                        likeBtn.dataset.liked = data.liked ? '1' : '0';
+              fetch('{{ path('like_article', { articleId: article.id }) }}', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'X-Requested-With': 'XMLHttpRequest',
+                  },
+                  body: JSON.stringify({
+                      _token: '{{ csrf_token('like_article_' ~ article.id) }}'
+                  }),
+                  credentials: 'same-origin'
+              })
+              .then(res => res.json())
+              .then(data => {
+                  if (data.success) {
+                      newLikeBtn.src = data.liked
+                          ? '{{ asset("build/images/liked.png") }}'
+                          : '{{ asset("build/images/notLiked.png") }}';
 
-                        likesCount.textContent = data.likes;
-                    }
-                })
-                .catch(err => console.error("Erreur lors du like :", err));
-            });
-          }
+                      likeBtn.dataset.liked = data.liked ? '1' : '0';
+
+                      likesCount.textContent = data.likes;
+                  }
+              })
+              .catch(err => console.error("Erreur lors du like :", err));
+          });
       });
     </script>
 {% endblock %}
